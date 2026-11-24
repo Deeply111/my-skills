@@ -1,0 +1,69 @@
+skill-v4 用到的全部东西（2026-11-05）
+换机器照这份装齐；新加了库、素材、工具记得补进来（同时记 CHANGELOG.md）。
+
+==================================================================
+一、外部工具（不在 skill 目录里，要另装）
+==================================================================
+uv                 跑所有 Python 脚本：uv run --no-project --python 3.12 --with-requirements ../requirements.lock python <脚本>
+                   （uv 会自己下 Python 3.12，不用另装 Python）
+Python 3.12        由 uv 管
+Microsoft Edge     render.py 用 playwright 驱动它无界面渲染；显卡走 D3D11（VMware 虚拟显卡也能用），--cpu 退回 SwiftShader
+ffmpeg 9.0.2       编码成片、接触表、静帧拼图（gyan.dev full build，winget 装：Gyan.FFmpeg）
+Blender 4.2.3 LTS  便携版，C:\Users\deeply\blender\blender-4.2.3-windows-x64\blender.exe
+                   只用来建模、烘阴影、打相机路径、烘模拟、转 Mixamo 动作（VMware 虚拟机上 EEVEE 跑不了）；下载和注意事项见 脚本/blender/说明.md
+Mixamo             要新动作时才用，浏览器登录 Adobe 账号后下载（用户自己登录）；已入库的动作不用再登录，步骤见 脚本/blender/说明.md
+procedural-sfx     合成音效的 skill（~/.claude/skills/procedural-sfx，github.com/bianbianzhu/procedural-sfx 提交 5eff10f，MIT）
+
+==================================================================
+二、Python 依赖（requirements.in → requirements.lock，精确版本以锁文件为准）
+==================================================================
+playwright==1.64.0   驱动浏览器渲染
+numpy==2.5.4
+pillow==12.1.1       接触表、审片包、检查
+scipy==1.18.1        音效合成（procedural-sfx）
+soundfile==0.14.0    读写 wav
+pedalboard==0.9.16   真实录音加工（脚本/音效加工.py）
+锁文件里的间接依赖：cffi 2.1.1、greenlet 3.5.6、pycparser 3.11、pyee 14.0.0、typing-extensions 4.16.0
+另：音乐地图（脚本/music_map.py）临时加 librosa、matplotlib、numba==0.67.*（Windows 智能应用控制会拦 numba 0.68 的 DLL），见 步骤/0_音乐地图.md
+
+==================================================================
+三、浏览器里的第三方库（引擎/第三方/，随 skill 带着，不联网）
+==================================================================
+库                       版本      许可                         用来
+three.js                 r160      MIT                          3D 层（three/three.module.min.js；addons/ 里的 GLTFLoader、OBJLoader、RGBELoader、Reflector、Pass 等取自同版本）
+three-story-controls     1.0.6     Apache-2.0（纽约时报）       3D 相机支架、摄影术语的运镜
+postprocessing (pmndrs)  6.36.4    Zlib                         3D 后期链：MSAA、景深、mipmap 泛光、AgX 色调映射、SMAA（pp/postprocessing.js）
+n8ao                     1.9.4     ISC                          环境光遮蔽（pp/N8AO.js；本地改了一处：噪声的 time 改读片子时间，保证同一帧两次一样）
+troika-three-text        0.52.4    MIT                          3D 里的锐利文字（troika/）
+  troika-three-utils     0.52.4    MIT
+  troika-worker-utils    0.52.0    MIT
+  webgl-sdf-generator    1.1.1     MIT
+  bidi-js                1.0.3     MIT
+GSAP + CustomEase        3.15.0    GreenSock Standard "No Charge" License（可商用）  动作曲线和时间线（gsap/）
+BudouX                   0.9.3     Apache-2.0（Google）         中文按意群断行
+opentype.js              （文件里没标版本）  MIT                字变形状（读字体轮廓）
+gl-transitions           2.5.0     MIT（InvertedPageCurl 是 BSD 3 Clause，StereoViewer 是 BSD 2 Clause） 转场效果，191 种（gl-transitions/；目录.md 列分组和中文别名；没收要额外贴图的 DisplacementMap、LumaWipe）
+许可原文都在各自目录的 LICENSE / 许可 文件里。
+
+==================================================================
+四、素材（随 skill 带着）
+==================================================================
+字体/     思源宋体 Noto Serif SC 400 / 600 / 900 / 可变字重           SIL OFL 1.1（字体/OFL.txt）
+素材/材质/ 实拍 PBR 贴图，1k jpg，全部 CC0（公有领域，可商用、不署名）；清单和出处在 素材/材质/来源.txt，每种有哪几张在 索引.json
+           Poly Haven：cracked_concrete、rough_concrete、rock_face、wood_table_worn、oak_veneer_01、wood_table_001（=木桌）、fabric_pattern_07（=布）、
+                       painted_plaster_wall、white_plaster_02（=石膏）、rusty_metal_02、concrete_floor_worn_001
+           ambientCG： Paper001（=纸）、Paper003、Cardboard002、Wood051、Fabric086、Metal049A、Metal032（=金属）
+素材/环境/ HDRI 环境贴图，1k hdr，Poly Haven CC0：studio_small_08、brown_photostudio_02、fireplace、small_empty_room_1、moonless_golf、
+           kloppenheim_02、dikhololo_night、kloofendal_overcast_puresky（出处在 素材/环境/来源.txt）
+素材/查找表/ 暖胶片、冷胶片、褪色、银盐、中性（.cube）：脚本/查找表.py 自己算的，没有外来授权
+素材/动作/ 人物动作：站起、低头走、推重物、向后摔、呼吸待机（fbx + 每帧骨骼 json），来自 Mixamo（Adobe），清单和注意事项在 素材/动作/索引.json，用 脚本/动作库.py 入库
+音效/空间/ 卷积混响的脉冲响应：教堂.wav（freesound:648945）、大厅.wav（freesound:423712），都是 Freesound CC0
+音乐/      配乐「若如初见」（原速、0.8 / 0.9 倍速）和音乐地图；用户提供
+模型       不放 skill：Poly Haven 的 CC0 模型按片子需要用 脚本/三维素材.py 下到 片子/<片名>/画风/<画风>/模型/
+
+==================================================================
+五、每条片自己下的素材（不在 skill 里，授权规矩见 SKILL.md 规矩 10）
+==================================================================
+BBC 音效库   RemArc 许可：只能个人、教育、研究用途，不能商用。用了的片子交片时注明"含 BBC 素材，不可商用"
+Freesound    只用 CC0
+出处由 脚本/素材.py（音效）、脚本/三维素材.py（材质、HDRI、模型）自动记进各自的 来源.txt

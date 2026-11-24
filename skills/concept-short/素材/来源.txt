@@ -1,0 +1,11 @@
+环境 studio_small_08（Poly Haven CC0，1k）https://polyhaven.com/a/studio_small_08  2026-10-30
+环境 small_empty_room_1（Poly Haven CC0，1k）https://polyhaven.com/a/small_empty_room_1  2026-10-30
+环境 dikhololo_night（Poly Haven CC0，1k）https://polyhaven.com/a/dikhololo_night  2026-10-30
+环境 kloofendal_overcast_puresky（Poly Haven CC0，1k）https://polyhaven.com/a/kloofendal_overcast_puresky  2026-10-30
+材质 木桌 ← Poly Haven wood_table_001（CC0，1k）https://polyhaven.com/a/wood_table_001  2026-10-30
+材质 石膏 ← Poly Haven white_plaster_02（CC0，1k）https://polyhaven.com/a/white_plaster_02  2026-10-30
+材质 纸 ← ambientCG Paper001（CC0，1k）https://ambientcg.com/view?id=Paper001  2026-10-30
+材质 金属 ← ambientCG Metal032（CC0，1k）https://ambientcg.com/view?id=Metal032  2026-10-30
+材质 布 ← Poly Haven fabric_pattern_07（CC0，1k）https://polyhaven.com/a/fabric_pattern_07  2026-10-30
+Poly Haven 的 CC0 贴图（polyhaven.com，公有领域，可商用、无需署名）
+cracked_concrete、rough_concrete、rock_face，1k jpg：diff 颜色、nor_gl 法线、rough 粗糙度

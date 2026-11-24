@@ -1,0 +1,10 @@
+# 概念短片 skill 的 Python 依赖。改这里以后重新生成锁文件：
+#   uv pip compile requirements.in -o requirements.lock --python-version 3.12
+# 脚本都用锁文件里的精确版本跑：uv run --no-project --python 3.12 --with-requirements ../requirements.lock python <脚本>
+# scipy、soundfile 给音效（procedural-sfx 的 sfxkit）用；pedalboard 给真实录音加工（脚本/音效加工.py）用；音乐地图另用 librosa，见 步骤/0_音乐地图.md。
+playwright==1.64.0
+numpy==2.5.4
+pillow==12.1.1
+scipy==1.18.1
+soundfile==0.14.0
+pedalboard==0.9.16

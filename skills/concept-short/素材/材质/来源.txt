@@ -1,0 +1,17 @@
+Paper001（ambientCG，https://ambientcg.com/a/Paper001，CC0）：1k jpg diff nor_gl rough
+Paper003（ambientCG，https://ambientcg.com/a/Paper003，CC0）：1k jpg diff nor_gl rough
+Cardboard002（ambientCG，https://ambientcg.com/a/Cardboard002，CC0）：1k jpg diff nor_gl rough
+wood_table_worn（Poly Haven，https://polyhaven.com/a/wood_table_worn，CC0）：1k jpg diff nor_gl rough ao
+oak_veneer_01（Poly Haven，https://polyhaven.com/a/oak_veneer_01，CC0）：1k jpg diff nor_gl rough ao
+Wood051（ambientCG，https://ambientcg.com/a/Wood051，CC0）：1k jpg diff nor_gl rough
+fabric_pattern_07（Poly Haven，https://polyhaven.com/a/fabric_pattern_07，CC0）：1k jpg nor_gl rough ao
+Fabric086（ambientCG，https://ambientcg.com/a/Fabric086，CC0）：1k jpg diff nor_gl rough
+painted_plaster_wall（Poly Haven，https://polyhaven.com/a/painted_plaster_wall，CC0）：1k jpg diff nor_gl rough ao
+white_plaster_02（Poly Haven，https://polyhaven.com/a/white_plaster_02，CC0）：1k jpg diff nor_gl rough ao
+Metal049A（ambientCG，https://ambientcg.com/a/Metal049A，CC0）：1k jpg diff metal nor_gl rough
+rusty_metal_02（Poly Haven，https://polyhaven.com/a/rusty_metal_02，CC0）：1k jpg diff nor_gl rough ao
+concrete_floor_worn_001（Poly Haven，https://polyhaven.com/a/concrete_floor_worn_001，CC0）：1k jpg diff nor_gl rough ao
+wood_table_001（Poly Haven，https://polyhaven.com/a/wood_table_001，CC0）：1k jpg diff nor_gl rough（和 木桌_* 同一份）
+Metal032（ambientCG，https://ambientcg.com/a/Metal032，CC0）：1k jpg diff nor_gl rough metal（和 金属_* 同一份）
+sand_01（Poly Haven，https://polyhaven.com/a/sand_01，CC0）：2k jpg diff nor_gl rough ao
+coast_sand_01（Poly Haven，https://polyhaven.com/a/coast_sand_01，CC0）：2k jpg diff nor_gl rough ao

@@ -1,0 +1,2 @@
+GSAP 3.15.0（gsap.min.js、CustomEase.min.js），GreenSock 的 Standard "No Charge" License：https://gsap.com/standard-license
+自 2025 年起所有插件免费，可商用；不能拿它做和 Webflow 竞争的可视化动画编辑工具。来源：https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/

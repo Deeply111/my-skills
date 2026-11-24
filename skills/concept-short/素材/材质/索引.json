@@ -1,0 +1,138 @@
+{
+"Cardboard002": [
+"diff",
+"nor_gl",
+"rough"
+],
+"coast_sand_01": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"concrete_floor_worn_001": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"cracked_concrete": [
+"diff",
+"nor_gl",
+"rough"
+],
+"Fabric086": [
+"diff",
+"nor_gl",
+"rough"
+],
+"fabric_pattern_07": [
+"ao",
+"nor_gl",
+"rough"
+],
+"Metal032": [
+"diff",
+"metal",
+"nor_gl",
+"rough"
+],
+"Metal049A": [
+"diff",
+"metal",
+"nor_gl",
+"rough"
+],
+"oak_veneer_01": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"painted_plaster_wall": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"Paper001": [
+"diff",
+"nor_gl",
+"rough"
+],
+"Paper003": [
+"diff",
+"nor_gl",
+"rough"
+],
+"rock_face": [
+"diff",
+"nor_gl",
+"rough"
+],
+"rough_concrete": [
+"diff",
+"nor_gl",
+"rough"
+],
+"rusty_metal_02": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"sand_01": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"white_plaster_02": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"Wood051": [
+"diff",
+"nor_gl",
+"rough"
+],
+"wood_table_001": [
+"diff",
+"nor_gl",
+"rough"
+],
+"wood_table_worn": [
+"ao",
+"diff",
+"nor_gl",
+"rough"
+],
+"布": [
+"diff",
+"nor_gl",
+"rough"
+],
+"木桌": [
+"diff",
+"nor_gl",
+"rough"
+],
+"石膏": [
+"diff",
+"nor_gl",
+"rough"
+],
+"纸": [
+"diff",
+"nor_gl",
+"rough"
+],
+"金属": [
+"diff",
+"metal",
+"nor_gl",
+"rough"
+]
+}

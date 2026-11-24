@@ -1,0 +1,5 @@
+真实空间的脉冲响应（卷积混响用），都是 Freesound 上的 CC0（公有领域），可以随便用：
+  教堂.wav  freesound:648945  IR_Cathedral_5m_Stereo（教堂，离声源 5 米）  https://freesound.org/s/648945/
+  大厅.wav  freesound:423712  The Knights Hall IR（骑士大厅）              https://freesound.org/s/423712/
+原文件是 Freesound 的 128k 预览（mp3），转成 48k 立体声 wav、峰值归到 0.9。
+要加别的空间（洞穴、小屋、户外）：用 脚本/素材.py 检索 "impulse response <空间>"，只挑 CC0 的，转好放这里，记进这份文件。

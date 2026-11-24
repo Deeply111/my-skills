@@ -1,0 +1,354 @@
+{
+  "_readme": "色卡库唯一数据源。scripts/pick_palette.py 读它，references/palette.md 解释规则。改色卡只改这里。",
+  "_schema": {
+    "id": "英文唯一标识",
+    "name": "中文名",
+    "family": "重击派 = 高对比、抢点击；高级派 = 低饱和底 + 有节制的亮点",
+    "bg": "底色，暖米白系，铺满画面",
+    "ink": "主色，承担标题非钩子部分 + 副标题 + 人物描边",
+    "ink2": "可选第二深色，标题第二行换色用；null 表示不用",
+    "pop": "撞色，上钩子词（可整行/整段）、下划线、色块banner、火花、人物外圈虚线，面积约 20–35%",
+    "assist": "可选辅助色，只能做浅色背景块、装饰形状，禁止用于文字",
+    "wardrobe": "顺色的衣服颜色",
+    "mood": "适合什么选题",
+    "source": "来源"
+  },
+  "palettes": [
+    {
+      "id": "navy-amber",
+      "name": "墨蓝 × 亮黄",
+      "family": "重击派",
+      "bg": "#F5EFE3",
+      "ink": "#1B3A5C",
+      "ink2": null,
+      "pop": "#F2B01E",
+      "assist": null,
+      "wardrobe": [
+        "灰绿",
+        "米白",
+        "藏青",
+        "深灰"
+      ],
+      "mood": "教程 / 工具 / 结论型，要点击率",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "coffee-teal-clay",
+      "name": "咖啡棕 × 墨绿蓝 × 陶土橘",
+      "family": "重击派",
+      "bg": "#F4EDE1",
+      "ink": "#4A3C31",
+      "ink2": "#3D6B75",
+      "pop": "#D4612E",
+      "assist": null,
+      "wardrobe": [
+        "灰绿",
+        "卡其",
+        "米白",
+        "棕"
+      ],
+      "mood": "保姆级教程 / 手把手带做",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "violet-orange",
+      "name": "深紫 × 橘红",
+      "family": "重击派",
+      "bg": "#F2EFE9",
+      "ink": "#5B3A9E",
+      "ink2": null,
+      "pop": "#E85D26",
+      "assist": null,
+      "wardrobe": [
+        "藕紫",
+        "浅紫",
+        "白",
+        "浅灰"
+      ],
+      "mood": "认知 / 观点 / 有攻击性的判断句",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "peacock-terracotta",
+      "name": "孔雀青 × 陶土橘",
+      "family": "重击派",
+      "bg": "#F3EADA",
+      "ink": "#1D6B6B",
+      "ink2": null,
+      "pop": "#E05C2B",
+      "assist": null,
+      "wardrobe": [
+        "灰绿",
+        "米白",
+        "深棕",
+        "牛仔蓝"
+      ],
+      "mood": "工作台 / 产品拆解 / 界面讲解",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "ink-navy-bright-amber",
+      "name": "深墨蓝 × 明黄",
+      "family": "重击派",
+      "bg": "#F7EFDC",
+      "ink": "#16324F",
+      "ink2": null,
+      "pop": "#F5B942",
+      "assist": null,
+      "wardrobe": [
+        "灰绿",
+        "白",
+        "牛仔蓝",
+        "米色"
+      ],
+      "mood": "强结论 / 一键搞定型选题",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "slate-terracotta",
+      "name": "石板蓝灰 × 赤陶橙",
+      "family": "高级派",
+      "bg": "#F7EBDF",
+      "ink": "#4B576D",
+      "ink2": null,
+      "pop": "#C96F42",
+      "assist": "#9AABB3",
+      "wardrobe": [
+        "灰绿",
+        "米白",
+        "灰蓝",
+        "卡其"
+      ],
+      "mood": "沉稳的方法论 / 系统性拆解",
+      "source": "参考配色"
+    },
+    {
+      "id": "mist-brick",
+      "name": "雾蓝 × 砖红",
+      "family": "高级派",
+      "bg": "#F5EFE3",
+      "ink": "#3F5573",
+      "ink2": null,
+      "pop": "#D4593A",
+      "assist": "#BA867D",
+      "wardrobe": [
+        "藕紫",
+        "灰绿",
+        "白",
+        "浅蓝"
+      ],
+      "mood": "思考 / 复盘 / 温和的观点",
+      "source": "参考配色（ 主色压深、撞色提亮以通过色差校验）"
+    },
+    {
+      "id": "moss-poppy",
+      "name": "深苔绿 × 罂粟橘",
+      "family": "高级派",
+      "bg": "#E8DDD1",
+      "ink": "#3F4A38",
+      "ink2": null,
+      "pop": "#F47B5E",
+      "assist": "#989B84",
+      "wardrobe": [
+        "灰绿",
+        "橄榄",
+        "米白",
+        "卡其"
+      ],
+      "mood": "自然 / 生活感 / 慢下来的选题",
+      "source": "参考配色"
+    },
+    {
+      "id": "cocoa-amber",
+      "name": "深可可 × 琥珀黄",
+      "family": "高级派",
+      "bg": "#F5EFE3",
+      "ink": "#5C2F26",
+      "ink2": null,
+      "pop": "#E8A33D",
+      "assist": "#9EB1D1",
+      "wardrobe": [
+        "米白",
+        "卡其",
+        "浅蓝",
+        "棕"
+      ],
+      "mood": "经验之谈 / 踩坑总结",
+      "source": "参考配色"
+    },
+    {
+      "id": "indigo-rose",
+      "name": "深靛蓝 × 玫粉",
+      "family": "高级派",
+      "bg": "#F4EFE6",
+      "ink": "#2E3A59",
+      "ink2": null,
+      "pop": "#D14A6B",
+      "assist": "#D1C5CB",
+      "wardrobe": [
+        "藕紫",
+        "白",
+        "浅粉",
+        "灰蓝"
+      ],
+      "mood": "女性成长 / 人文叙事 / 情绪向",
+      "source": "新配"
+    },
+    {
+      "id": "plum-mustard",
+      "name": "深灰紫 × 芥黄",
+      "family": "高级派",
+      "bg": "#F2EEE6",
+      "ink": "#453B54",
+      "ink2": null,
+      "pop": "#C99017",
+      "assist": "#D1C5CB",
+      "wardrobe": [
+        "藕紫",
+        "灰",
+        "米白",
+        "深紫"
+      ],
+      "mood": "反直觉观点 / 有点辛辣的判断",
+      "source": "新配"
+    },
+    {
+      "id": "walnut-lake",
+      "name": "深胡桃棕 × 湖蓝",
+      "family": "高级派",
+      "bg": "#F6EFE2",
+      "ink": "#4E3125",
+      "ink2": null,
+      "pop": "#0E8AA6",
+      "assist": "#E0B1A0",
+      "wardrobe": [
+        "米白",
+        "卡其",
+        "灰绿",
+        "浅蓝"
+      ],
+      "mood": "工具评测 / 冷静对比",
+      "source": "新配 — 湖蓝提亮以通过色差校验"
+    },
+    {
+      "id": "brownblack-orange-blue",
+      "name": "棕黑 × 橘红 × 电光蓝",
+      "family": "重击派",
+      "bg": "#FBF5E8",
+      "ink": "#2A1712",
+      "ink2": "#1F5FD6",
+      "pop": "#FF5A1F",
+      "assist": "#F7D46B",
+      "wardrobe": [
+        "浅灰",
+        "灰",
+        "白",
+        "米白"
+      ],
+      "mood": "痛点提问 / 反问句标题，要点击率",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "navy-orange-green",
+      "name": "墨蓝 × 橘 × 草绿",
+      "family": "重击派",
+      "bg": "#F6F0E2",
+      "ink": "#13254A",
+      "ink2": "#2F6B2F",
+      "pop": "#F05A16",
+      "assist": "#F7D36A",
+      "wardrobe": [
+        "灰绿",
+        "橄榄",
+        "米白",
+        "卡其"
+      ],
+      "mood": "玩法 / 技巧类，带一点野路子感",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "darkbrown-amber",
+      "name": "深棕 × 琥珀黄",
+      "family": "重击派",
+      "bg": "#F8F1E2",
+      "ink": "#3B2418",
+      "ink2": null,
+      "pop": "#F2A516",
+      "assist": "#F9DC8E",
+      "wardrobe": [
+        "棕",
+        "咖啡",
+        "卡其",
+        "米白"
+      ],
+      "mood": "工具组合 / 方法论，暖调",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "forest-orange",
+      "name": "墨绿 × 亮橘",
+      "family": "重击派",
+      "bg": "#F7F1E3",
+      "ink": "#1F4D2B",
+      "ink2": null,
+      "pop": "#F2611D",
+      "assist": "#CFE3C0",
+      "wardrobe": [
+        "墨绿",
+        "深绿",
+        "橄榄",
+        "灰绿"
+      ],
+      "mood": "工具组合 / 流水线，清爽有活力",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "navy-rust",
+      "name": "墨蓝 × 铁锈橘",
+      "family": "重击派",
+      "bg": "#F2EDE4",
+      "ink": "#16223F",
+      "ink2": null,
+      "pop": "#D9541E",
+      "assist": "#F3D9C4",
+      "wardrobe": [
+        "浅灰",
+        "灰",
+        "白",
+        "米白"
+      ],
+      "mood": "工具联动 / 跑通类，偏干货",
+      "source": "实战封面验证过"
+    },
+    {
+      "id": "purple-navy-amber",
+      "name": "紫 × 墨蓝 × 琥珀",
+      "family": "重击派",
+      "bg": "#F3E6D0",
+      "ink": "#1A1F45",
+      "ink2": "#5B34B5",
+      "pop": "#F2A516",
+      "assist": "#D9CCF0",
+      "wardrobe": [
+        "紫",
+        "藕紫",
+        "浅紫",
+        "白"
+      ],
+      "mood": "产品发布 / 开源，带仪式感",
+      "source": "实战封面验证过"
+    }
+  ],
+  "banned_as_pop": {
+    "_why": "这些色对暖米底对比度不足，当钩子词会在缩略图上糊掉。只能做 assist（浅色块 / 装饰形状）。",
+    "colors": [
+      "#9EB1D1 SKY",
+      "#D1C5CB CLOUD",
+      "#E0B1A0 DUSK",
+      "#E8DDD1 SAND",
+      "#BA867D",
+      "#9AABB3",
+      "#989B84 MOSS"
+    ]
+  }
+}
