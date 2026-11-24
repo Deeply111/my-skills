@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "kind": "workflow",
+  "order": 2,
+  "icon": "shapes",
+  "title": {
+    "en": "Explainer shorts",
+    "zh-CN": "科普讲解短片",
+    "ja": "解説ショート",
+    "ko": "설명 숏폼",
+    "es": "Cortos explicativos"
+  },
+  "summary": {
+    "en": "Your script and voice-over with motion graphics made for each line, built in four steps you approve.",
+    "zh-CN": "你的文案和配音，配上为每句话做的动效；分四步做，每步你点头再继续。",
+    "ja": "あなたの台本とナレーションに、一文ずつ作ったモーショングラフィックス。4 段階で、各段階を確認してから進みます。",
+    "ko": "당신의 대본과 내레이션에 문장마다 만든 모션 그래픽. 네 단계로, 단계마다 확인한 뒤 진행합니다.",
+    "es": "Tu guion y tu voz con gráficos animados hechos para cada frase, en cuatro pasos que apruebas."
+  },
+  "details": {
+    "en": "Best for: 1–3 minute landscape explainers where you write the script and record the voice.\nWhat it does: plans the sections, then a table of colors and moves, then the pictures section by section, then checks itself against the rules and hands you the checklist. Numbers and key words land on the frame the voice says them; one color per section; it ends on the answer, not on thanks for watching. Subtitles come in the look saved with it, and music sits about 12 dB under the voice.",
+    "zh-CN": "适合：1 到 3 分钟的横屏科普短片，文案和配音由你来。\n它会：先出分段规划，再出每段的颜色和动效表，然后逐段做画面，最后按规范自查并把打勾表交给你。数字和关键词踩在配音念到的那一帧，一段一个颜色，结尾揭晓答案，不做「感谢观看」。字幕用技能里存好的样式，背景音乐比人声低 12 dB 左右。",
+    "ja": "こんなときに：台本とナレーションは自分で用意する、1〜3 分の横長の解説動画。\nすること：まずパート分け、次に各パートの色と動きの表、それからパートごとに映像を作り、最後にルールで自己チェックしてチェック表を渡します。数字やキーワードはナレーションが言うフレームで決まり、1 パート 1 色、締めは答えの種明かしで「ご視聴ありがとう」はなし。字幕はスキルに保存したスタイルで、BGM は声より約 12 dB 低く。",
+    "ko": "이럴 때: 대본과 내레이션은 직접 준비하는 1~3분 가로형 설명 영상.\n하는 일: 먼저 구간을 나누고, 구간별 색과 동작 표를 만든 뒤, 구간마다 화면을 만들고, 마지막에 규칙으로 스스로 점검해 체크표를 넘깁니다. 숫자와 키워드는 내레이션이 말하는 프레임에 맞춰 자리 잡고, 구간마다 한 가지 색, 끝은 '시청해 주셔서 감사합니다' 대신 답을 공개하며 끝납니다.자막은 스킬에 저장한 스타일로, 배경 음악은 목소리보다 약 12 dB 낮게.",
+    "es": "Ideal para: explicativos horizontales de 1 a 3 minutos con tu guion y tu voz.\nQué hace: planifica las secciones, luego una tabla de colores y movimientos, luego las imágenes sección por sección, y al final se revisa con las reglas y te entrega la lista. Números y palabras clave aparecen en el fotograma en que la voz los dice; un color por sección; termina revelando la respuesta, sin «gracias por ver». Los subtítulos usan el estilo guardado con ella y la música va unos 12 dB por debajo de la voz."
+  }
+}

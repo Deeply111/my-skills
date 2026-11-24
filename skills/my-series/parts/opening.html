@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Series opening, 3 s: series name, episode, title; sized to the stage, landscape or portrait */
+  html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #f4f1ea; color: #1d1b18;
+    font-family: "PingFang SC", "Microsoft YaHei UI", system-ui, sans-serif; }
+  .stack { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2.6vmin; padding: 0 8vmin; text-align: center; }
+  #series { font-size: 3.6vmin; letter-spacing: 0.3em; color: #6d675c; }
+  #episode { font-size: 4.6vmin; font-weight: 700; color: #e0572d; }
+  #title { font-size: 9vmin; font-weight: 800; line-height: 1.15; text-wrap: balance; }
+  #rule { height: 0.7vmin; border-radius: 1vmin; background: #1d1b18; }
+</style>
+</head>
+<body>
+<div class="stack">
+  <div id="series">系列名</div>
+  <div id="episode">第 1 期</div>
+  <div id="title">这一期的标题</div>
+  <div id="rule"></div>
+</div>
+<script type="module">
+const $ = (id) => document.getElementById(id);
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const out = (x) => 1 - Math.pow(1 - clamp(x), 3);
+// 0 → 1 between a and b, eased
+const span = (t, a, b) => out((t - a) / (b - a));
+
+window.film = {
+  duration: 3,
+  ready: document.fonts.ready,
+  frame(t) {
+    const gone = 1 - span(t, 2.6, 3);
+    const rise = (el, a, b) => {
+      const k = span(t, a, b);
+      el.style.opacity = String(k * gone);
+      el.style.transform = `translateY(${(1 - k) * 3}vmin)`;
+    };
+    rise($('series'), 0, 0.5);
+    rise($('episode'), 0.2, 0.7);
+    rise($('title'), 0.4, 1.0);
+    $('rule').style.width = `${span(t, 0.8, 1.5) * 24}vmin`;
+    $('rule').style.opacity = String(gone);
+  },
+};
+</script>
+</body>
+</html>

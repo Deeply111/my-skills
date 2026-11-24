@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0",
+  "kind": "workflow",
+  "order": 3,
+  "icon": "film",
+  "title": {
+    "en": "My series",
+    "zh-CN": "我的系列",
+    "ja": "わたしのシリーズ",
+    "ko": "나의 시리즈",
+    "es": "Mi serie"
+  },
+  "summary": {
+    "en": "Every episode with the same opening, closing and subtitle look, copied from here, never redrawn.",
+    "zh-CN": "每一期用同一个片头、片尾和字幕样式，从这里复制，不重画。",
+    "ja": "毎回同じオープニング、エンディング、字幕スタイルを、ここからコピーして使います。描き直しません。",
+    "ko": "매 회 같은 오프닝, 엔딩, 자막 스타일을 여기서 복사해 씁니다. 다시 그리지 않습니다.",
+    "es": "Cada episodio con la misma entrada, cierre y estilo de subtítulos, copiados de aquí, nunca rehechos."
+  },
+  "details": {
+    "en": "Best for: a series you post again and again, where viewers should know it at a glance.\nWhat it does: copies the opening and closing pages and the subtitle look kept in this skill into each new episode, changes only the episode number and title, and asks before changing any shared part. Its parts are placeholders: after your first episode you like, replace them with that episode's.",
+    "zh-CN": "适合：一期一期持续更新、想让观众一眼认出的系列。\n它会：把存在这个技能里的片头页、片尾页和字幕样式复制进每一期，只改期数和标题；要动固定部分前先问你。里面的片头片尾是占位的：第一期做满意后，换成那一期的。",
+    "ja": "こんなときに：続けて投稿し、ひと目でそれと分かってほしいシリーズ。\nすること：このスキルに保存したオープニング、エンディング、字幕スタイルを毎回コピーし、話数とタイトルだけを変えます。共通部分を変える前には確認します。中身は仮のものなので、気に入った最初の回ができたらその回のものに置き換えます。",
+    "ko": "이럴 때: 계속 올리면서 한눈에 알아보게 하고 싶은 시리즈.\n하는 일: 이 스킬에 저장한 오프닝, 엔딩, 자막 스타일을 매 회 복사하고 회차와 제목만 바꿉니다. 공통 부분을 바꾸기 전에는 묻습니다. 안의 부품은 임시이니, 마음에 드는 첫 회가 나오면 그 회의 것으로 바꿉니다.",
+    "es": "Ideal para: una serie que publicas una y otra vez y que se debe reconocer de un vistazo.\nQué hace: copia en cada episodio las páginas de entrada y cierre y el estilo de subtítulos guardados en esta skill, cambia solo el número y el título, y pregunta antes de tocar una parte común. Las piezas son provisionales: tras tu primer episodio que te guste, cámbialas por las de ese episodio."
+  }
+}

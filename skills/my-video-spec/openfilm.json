@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "kind": "workflow",
+  "order": 1,
+  "icon": "pen",
+  "title": {
+    "en": "My video spec",
+    "zh-CN": "我的视频规范",
+    "ja": "わたしの動画ルール",
+    "ko": "나의 영상 규칙",
+    "es": "Mis reglas de vídeo"
+  },
+  "summary": {
+    "en": "A template: write down how your videos are made, and every film follows it.",
+    "zh-CN": "模板：把你做视频的规矩写下来，每条片子都照着做。",
+    "ja": "テンプレート：動画の作り方を書いておけば、どの動画もそれに従います。",
+    "ko": "템플릿: 영상 만드는 규칙을 적어 두면 모든 영상이 그대로 따릅니다.",
+    "es": "Una plantilla: escribe cómo se hacen tus vídeos y cada película lo sigue."
+  },
+  "details": {
+    "en": "Best for: anyone who keeps telling the agent the same things film after film.\nWhat it does: nothing until you fill it in. Write the steps you want to approve, the rhythm, the look, what to avoid and how you split the work, then add it with `openfilm skill add`.",
+    "zh-CN": "适合：每做一条片子都要把同样的要求再说一遍的人。\n它会：填好之前什么都不做。写下你要逐步确认的流程、节奏、画面、不要什么、你和智能体怎么分工，然后用 `openfilm skill add` 加进来。",
+    "ja": "こんなときに：動画を作るたびに同じ指示を繰り返している人に。\nすること：書き込むまでは何もしません。確認したい手順、リズム、見た目、避けたいこと、役割分担を書いて、`openfilm skill add` で追加します。",
+    "ko": "이럴 때: 영상을 만들 때마다 같은 요구를 반복하는 사람에게.\n하는 일: 채우기 전에는 아무것도 하지 않습니다. 확인하고 싶은 단계, 리듬, 화면, 피할 것, 역할 분담을 적고 `openfilm skill add`로 추가하세요.",
+    "es": "Ideal para: quien repite al agente las mismas indicaciones en cada película.\nQué hace: nada hasta que la rellenes. Escribe los pasos que quieres aprobar, el ritmo, el aspecto, lo que hay que evitar y cómo os repartís el trabajo, y añádela con `openfilm skill add`."
+  }
+}
