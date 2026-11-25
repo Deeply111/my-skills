@@ -1,0 +1,87 @@
+<!doctype html>
+<!-- 纸面立体书 · __TITLE__
+     口播：__SOURCE__（__FROM__–__TO__ 秒），片长 __DURATION__ 秒。
+     动作表：action-table.md（先填完它再写下面的场景）。场景里的每一段注释写上动作表的行号（如 // A2·3）。
+     世界坐标：x 向右，z 朝向观众（越远越负），地板在 y = 800。每一镜在地板上占一块地方，镜头在它们之间走。 -->
+<html lang="zh" data-resolution="landscape">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="data/caps.js"></script>
+<script src="lib/stage3d.js"></script>
+<script src="lib/kit.js"></script>
+<link rel="stylesheet" href="lib/paper.css" />
+<style>
+/* 本期专用的纸片样式写在这里 */
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="__DURATION__" data-width="1920" data-height="1080">
+  <div id="view"><div id="world">
+    <div id="wall"></div>
+    <div id="page">
+      <!-- 本期的纸片：立着的、平铺的、影子，都放在 #page 里 -->
+
+      <!-- 角色：橙色小方块 -->
+      <div class="sh" id="actorSh"></div>
+      <div id="actor"><div class="actorIn" id="actorIn"><i class="eye l"></i><i class="eye r"></i></div></div>
+    </div>
+  </div></div>
+
+  <div class="hud" id="vig"></div>
+  <!-- 主持人：带框的原片（照片 / 加 round 类是圆贴纸），不抠像；平放在屏幕层，不进 3D 场景、不跟镜头 -->
+  <div class="hud photo pcard" id="photo" style="left:1430px;top:150px;width:380px;height:480px;transform:rotate(2deg)"><div class="in"><video id="talkA" class="clip" src="assets/talk.mp4" muted playsinline data-start="0" data-duration="__DURATION__" data-track-index="1" style="left:-24px;top:-88px;width:400px;height:711px"></video></div></div>
+  <div class="hud" id="tag"><i></i>__CHANNEL__</div>
+  <div class="hud" id="caps"></div>
+  <div id="fade"></div>
+
+  <audio id="voice" src="assets/voice.wav" data-start="0" data-duration="__DURATION__" data-track-index="2" data-volume="1"></audio>
+  <audio id="music" src="assets/music.wav" data-start="0" data-duration="__DURATION__" data-track-index="5" data-volume="0.12"></audio>
+  <!-- 音效：不在这里手写。写 data/sfx_cues.js，再跑 scripts/bake_sfx.mjs，它把下面这段替换掉 -->
+  <!-- sfx:begin -->
+  <!-- sfx:end -->
+</div>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const D = __DURATION__;
+  const tl = gsap.timeline({ paused: true });
+  const K = Kit.use(tl), W = K.word;
+
+  // ---------- 镜头：关键帧 [时刻, {x,y,z,rx,ry,s}, 缓动]。rx -88 = 正俯视（2D 段），-10 ~ -35 = 2.5D ----------
+  Stage3D.install(tl, {
+    duration: D,
+    cam: [
+      [0, { x: 960, y: 800, z: -400, rx: -88, ry: 0, s: 0.9 }],
+      [D, { x: 960, y: 620, z: -400, rx: -22, ry: 8, s: 1.0 }],
+    ],
+    shake: [],   // [[时刻, 强度, 时长]]，落地、撞击时用
+  });
+
+  // ---------- 主持人照片 ----------
+  // 只淡入淡出（K.presenterIn / Out），不翻、不飞、不跟镜头；video 的 left/top/width 按本期人脸位置调
+  K.presenterIn("#photo", 0.3);
+  // K.presenterOut("#photo", 3.0);
+
+  // ---------- 角色 ----------
+  const A = K.actor($("#actor"), $("#actorIn"), $("#actorSh"), 960, -400);
+
+  // ---------- 场景：照 action-table.md 一行一行写；每一镜三层：背景 / 主体 / 前景 ----------
+  // 背景：K.bgBlock(x, z-900, …)、K.bgCard(…)    前景：K.fgCard(靠边, z+300, …)、俯视时 K.fgFlat(…, lift)
+  // 字：K.tag("…", x, z, w, h) + K.popUp(el, t)；K.print("…", x, z, w, h) + K.printFlat(el, t)
+  // 纸盒落下：const g = K.block(…); K.dropIn(g, t)     虚线箭头：K.drawIn(K.arrow(x0, x1, z), t)
+  // A1·1 …
+
+  // ---------- 字幕：每句里要变强调色的字 ----------
+  K.captions({ /* c01: "关键词" */ }, D - 0.35);
+  tl.fromTo("#tag", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5 }, 0.2);
+  tl.to("#fade", { opacity: 1, duration: 0.35, ease: "power1.in" }, D - 0.35);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+})();
+</script>
+</body>
+</html>
