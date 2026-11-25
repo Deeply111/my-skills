@@ -1,0 +1,71 @@
+@font-face{font-family:MiSans;src:url(../fonts/MiSans-Regular.ttf);font-weight:400}
+@font-face{font-family:MiSans;src:url(../fonts/MiSans-Medium.ttf);font-weight:500}
+@font-face{font-family:MiSans;src:url(../fonts/MiSans-Semibold.ttf);font-weight:600}
+@font-face{font-family:MiSans;src:url(../fonts/MiSans-Bold.ttf);font-weight:700}
+@font-face{font-family:Bebas;src:url(../fonts/BebasNeue-Regular.ttf)}
+@font-face{font-family:Mont;src:url(../fonts/Montserrat-VF.ttf);font-weight:100 900}
+/* 纸面立体书：米白纸、黑线、一个橙。东西都是纸片，立在纸面上，影子落在纸上。 */
+:root{--paper:#F3F0E8;--card:#FBF9F4;--ink:#141414;--acc:#E8430F;--mute:#8f8a80}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:MiSans,sans-serif}
+
+/* ---- the 3D stage ---- */
+#view{position:absolute;inset:0;perspective:1500px;perspective-origin:960px 540px;overflow:hidden;background:linear-gradient(#e9e5db 0%,#F3F0E8 60%)}
+#world{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transform-origin:0 0}
+/* the floor: a sheet of paper with a faint 300 px grid; page (u,v) = world (u-1500, FLOOR, 1200-v) */
+#page{position:absolute;left:-1500px;top:800px;width:7500px;height:4600px;transform-origin:0 0;transform:translateZ(1200px) rotateX(-90deg);transform-style:preserve-3d;
+ background:linear-gradient(90deg,rgba(20,20,20,.06) 0 2px,transparent 2px) 0 0/300px 300px,linear-gradient(rgba(20,20,20,.06) 0 2px,transparent 2px) 0 0/300px 300px,url(../assets/paper.jpg) 0 0/3400px 2400px}
+/* a tall backdrop far away, like a tabletop photo set; blurred for depth of field */
+#wall{filter:blur(3px);position:absolute;left:-1500px;top:-2600px;width:7500px;height:3400px;transform:translateZ(-3300px);
+ background:linear-gradient(#e2ddd1,#efebe2 70%,#F3F0E8),url(../assets/paper.jpg) 0 0/3400px 2400px;background-blend-mode:multiply}
+.g3{position:absolute;left:0;top:0;transform-style:preserve-3d}
+
+/* ---- paper materials ---- */
+.card{background:linear-gradient(#fefdf9,#eee9de);border:5px solid var(--ink);border-radius:4px}
+.top{background:#fdfcf9;border:4px solid var(--ink)}
+.front{border:4px solid var(--ink);border-bottom:none}
+.sideF{background:#dcd6c9;border:4px solid var(--ink);border-bottom:none}
+.sh{border-radius:50%;background:radial-gradient(closest-side,rgba(40,25,10,.32),rgba(40,25,10,0))}   /* round contact shadow */
+.shr{background:rgba(40,25,10,.16);filter:blur(14px);border-radius:8px}                              /* soft cast shadow of a card */
+.dashed{border:5px dashed rgba(20,20,20,.45);border-radius:50%}                                      /* an empty slot / something missing */
+
+/* ---- layers: background far and pale, foreground near, dark and soft (blur only on single cards) ---- */
+.bgc{background:linear-gradient(#f8f6f0,#ece7dc);border:3px solid rgba(20,20,20,.16);border-bottom:none;border-radius:4px 4px 0 0}
+.bgc i{position:absolute;left:14%;right:14%;height:4px;background:rgba(20,20,20,.12);border-radius:2px}
+.fgc{background:linear-gradient(#d9d2c3,#c9c0ae);border:7px solid #2a2622;border-bottom:none;border-radius:8px 8px 0 0;filter:blur(5px) brightness(.9)}
+.fgf{background:#e6dfd1;border:7px solid #2a2622;border-radius:6px;filter:blur(6px) brightness(.93)}
+.fgf i{position:absolute;left:10%;right:10%;height:6px;background:rgba(20,20,20,.35);border-radius:3px}
+
+/* ---- presenter: framed footage only (no cutout) ---- */
+.photo{background:#fff;padding:14px}
+.photo .in{position:relative;width:100%;height:100%;overflow:hidden;background:#222}
+.photo video{position:absolute;object-fit:cover}
+.photo.round{border-radius:50%;padding:12px}.photo.round .in{border-radius:50%}
+.pcard{box-shadow:0 2px 0 rgba(20,20,20,.08),0 16px 28px rgba(60,40,20,.2)}
+
+/* ---- the orange square character ---- */
+.actorIn{position:absolute;inset:0;background:var(--acc);border-radius:6px;box-shadow:inset 0 -8px 0 rgba(0,0,0,.12)}
+.actorIn .eye{position:absolute;top:24px;width:10px;height:14px;background:#141414;border-radius:5px}
+.actorIn .eye.l{left:22px}.actorIn .eye.r{left:42px}
+
+/* ---- words on paper ---- */
+.word{font:700 150px/1 MiSans;white-space:nowrap;display:flex;align-items:flex-end;justify-content:center;letter-spacing:.02em}
+.word em{font-style:normal;color:var(--acc)}
+.num{font:400 300px/0.8 Bebas;white-space:nowrap;display:flex;align-items:flex-end;justify-content:center}
+.tag{background:linear-gradient(#fffdf8,#f1ece1);border:4px solid var(--ink);border-bottom:none;border-radius:6px 6px 0 0;font:700 46px/1 MiSans;color:var(--ink);display:flex;align-items:center;justify-content:center;letter-spacing:.06em;white-space:nowrap}
+.tag.acc{color:#fff;background:var(--acc)}
+.print{font:700 78px/1 MiSans;color:var(--acc);white-space:nowrap;display:flex;align-items:center;justify-content:center;letter-spacing:.04em}
+.ghost{border:6px dashed rgba(20,20,20,.5);border-bottom:none;border-radius:10px 10px 0 0;background:rgba(251,249,244,.75);display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 50px/1.1 MiSans;color:var(--mute)}   /* something that should be there but isn't */
+.stamp{font:700 170px/1 MiSans;color:var(--acc);border:8px solid var(--acc);border-radius:12px;display:flex;align-items:center;justify-content:center;letter-spacing:.04em}
+
+/* ---- HUD (does not move with the camera) ---- */
+.hud{position:absolute;z-index:10}
+#vig{left:0;top:0;width:1920px;height:1080px;z-index:5;background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 55%,rgba(60,40,20,.16) 100%)}
+#tag{left:64px;top:44px;font:700 22px MiSans;letter-spacing:.12em;display:flex;align-items:center;gap:12px}
+#tag i{width:26px;height:3px;background:var(--ink);display:block}
+#caps{left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.cap{position:absolute;left:50%;top:978px;transform:translateX(-50%);padding:10px 26px 12px;background:var(--card);font:600 38px MiSans;white-space:nowrap;border-radius:3px;
+ filter:drop-shadow(0 2px 0 rgba(20,20,20,.08)) drop-shadow(0 14px 18px rgba(60,40,20,.18))}
+.cap .c{color:var(--mute)}
+#fade{position:absolute;inset:0;background:var(--paper);opacity:0;z-index:20}

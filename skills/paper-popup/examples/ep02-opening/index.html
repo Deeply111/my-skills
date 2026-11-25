@@ -1,0 +1,392 @@
+<!doctype html>
+<!-- 纸面编辑部 · 3D 立体书：1.mp4（调色版）0–13 秒，末尾定格补到 13.4 秒。
+     "高认知穷人，其实是缺少向外输出 / 我们改变自己的方式通常是早起、运动、读书 / 但这些都是内部循环，只是基本要求 / 若止步于此，处境不会发生改变"
+     地板上的位置（世界 x, z）：一镜 书塔 (800,-385)；二镜 三个格子 (2700/3050/3400,-300)；三四镜 圆环和栅栏围着它们，门在 (4000,-850)。
+     10 秒样片（向外输出那段）备份在 index_ep90_sample.html，平面版在 index_flat.html。 -->
+<html lang="zh" data-resolution="landscape">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="data/caps13.js"></script>
+<script src="lib/stage3d.js"></script>
+<link rel="stylesheet" href="lib/paper.css" />
+<style>
+#view{position:absolute;inset:0;perspective:1500px;perspective-origin:960px 540px;overflow:hidden;background:linear-gradient(#e9e5db 0%,#F3F0E8 60%)}
+#world{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transform-origin:0 0}
+#page{position:absolute;left:-1500px;top:800px;width:7500px;height:4600px;transform-origin:0 0;transform:translateZ(1200px) rotateX(-90deg);transform-style:preserve-3d;
+ background:linear-gradient(90deg,rgba(20,20,20,.06) 0 2px,transparent 2px) 0 0/300px 300px,linear-gradient(rgba(20,20,20,.06) 0 2px,transparent 2px) 0 0/300px 300px,url(assets/paper.jpg) 0 0/3400px 2400px}
+#wall{filter:blur(3px);position:absolute;left:-1500px;top:-2600px;width:7500px;height:3400px;transform:translateZ(-3300px);
+ background:linear-gradient(#e2ddd1,#efebe2 70%,#F3F0E8),url(assets/paper.jpg) 0 0/3400px 2400px;background-blend-mode:multiply}
+.g3{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.sh{border-radius:50%;background:radial-gradient(closest-side,rgba(40,25,10,.32),rgba(40,25,10,0))}
+.shr{background:rgba(40,25,10,.16);filter:blur(14px);border-radius:8px}
+.top{background:#fdfcf9;border:4px solid var(--ink)}
+.front{border:4px solid var(--ink);border-bottom:none}
+.sideF{background:#dcd6c9;border:4px solid var(--ink);border-bottom:none}
+.photo{background:#fff;padding:14px}
+.photo .in{position:relative;width:100%;height:100%;overflow:hidden;background:#222}
+.photo video{position:absolute;object-fit:cover}
+#sticker{border-radius:50%;padding:12px}#sticker .in{border-radius:50%}
+.pcard{box-shadow:0 2px 0 rgba(20,20,20,.08),0 16px 28px rgba(60,40,20,.2)}
+#title{font:700 150px/1 MiSans;white-space:nowrap;display:flex;align-items:flex-end;justify-content:center;letter-spacing:.02em}
+#title em{font-style:normal;color:var(--acc)}
+#outIn{position:absolute;inset:0;background:var(--acc);border-radius:6px;box-shadow:inset 0 -8px 0 rgba(0,0,0,.12)}
+#outIn .eye{position:absolute;top:24px;width:10px;height:14px;background:#141414;border-radius:5px}
+#outIn .eye.l{left:22px}#outIn .eye.r{left:42px}
+.slot{border:5px dashed rgba(20,20,20,.45);border-radius:50%}
+#horizon{background:linear-gradient(#fefdf9,#ece6da);border:5px solid var(--ink);border-bottom:none;border-radius:6px 6px 0 0}
+#sun{border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff8a5a,var(--acc) 60%,#c4360a)}
+#sun i{position:absolute;left:50%;top:50%;width:16px;height:46px;margin:-23px 0 0 -8px;background:var(--acc);border-radius:8px}
+#bar{background:var(--ink);border-radius:8px}
+#bar i{position:absolute;top:-46px;width:44px;height:110px;background:var(--ink);border-radius:10px}
+#bar i.a{left:-6px}#bar i.b{right:-6px}
+.pageL,.pageR{background:linear-gradient(#fefdf9,#ece6da);border:5px solid var(--ink);border-bottom:none}
+.pageL{border-radius:16px 0 0 0}.pageR{border-radius:0 16px 0 0}
+.pageL i,.pageR i{position:absolute;left:22px;right:22px;height:5px;background:rgba(20,20,20,.35);border-radius:3px}
+#ring{overflow:visible}
+#loopTxt{font:700 140px/1 MiSans;color:rgba(20,20,20,.85);display:flex;align-items:center;justify-content:center;white-space:nowrap}
+#loopTxt em{font-style:normal;color:var(--acc)}
+.fence{background:linear-gradient(#fefdf9,#e6e0d3);border:4px solid var(--ink);border-bottom:none;border-radius:6px 6px 0 0}
+#door{background:#2a2520;border:10px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0}
+#door i{position:absolute;right:24px;top:52%;width:18px;height:18px;border-radius:50%;background:#e8c07a}
+#doorFrame{background:linear-gradient(#fefdf9,#ece6da);border:5px solid var(--ink);border-bottom:none}
+/* ---- layers: background (pale, far), foreground (dark, near, soft) ---- */
+.bgc{background:linear-gradient(#f8f6f0,#ece7dc);border:3px solid rgba(20,20,20,.16);border-bottom:none;border-radius:4px 4px 0 0}
+.bgc i{position:absolute;left:14%;right:14%;height:4px;background:rgba(20,20,20,.12);border-radius:2px}
+.fgc{background:linear-gradient(#d9d2c3,#c9c0ae);border:7px solid #2a2622;border-bottom:none;border-radius:8px 8px 0 0;filter:blur(5px) brightness(.9)}
+.fgf{background:#e6dfd1;border:7px solid #2a2622;border-radius:6px;filter:blur(6px) brightness(.93)}
+.fgf i{position:absolute;left:10%;right:10%;height:6px;background:rgba(20,20,20,.35);border-radius:3px}
+/* ---- subject detail + words in the world ---- */
+.spine{display:flex;align-items:center;justify-content:center;font:700 24px/1 MiSans;letter-spacing:.14em}
+.spine b{position:absolute;top:6px;bottom:6px;width:4px;opacity:.45;background:currentColor}
+.spine b.l{left:22px}.spine b.r{right:22px}
+.tag{background:linear-gradient(#fffdf8,#f1ece1);border:4px solid var(--ink);border-bottom:none;border-radius:6px 6px 0 0;font:700 46px/1 MiSans;color:var(--ink);display:flex;align-items:center;justify-content:center;letter-spacing:.06em}
+.tag.acc{color:#fff;background:var(--acc);border-color:#141414}
+.print{font:700 78px/1 MiSans;color:var(--acc);white-space:nowrap;display:flex;align-items:center;justify-content:center;letter-spacing:.04em}
+.note{font:700 54px/1 MiSans;color:#5b5a55;white-space:nowrap;display:flex;align-items:center;justify-content:center}
+.fence{background:repeating-linear-gradient(90deg,transparent 0 44px,rgba(20,20,20,.09) 44px 47px),linear-gradient(#fefdf9,#e6e0d3) !important}
+#door .pl{position:absolute;left:28px;right:28px;height:120px;border:4px solid rgba(255,255,255,.14);border-radius:4px}
+#door .sign{white-space:nowrap;position:absolute;left:50%;top:70px;transform:translateX(-50%);padding:8px 18px;background:#fbf9f4;color:#141414;font:700 40px/1 MiSans;border-radius:4px;letter-spacing:.08em}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="13.4" data-width="1920" data-height="1080">
+  <div id="view"><div id="world">
+    <div id="wall"></div>
+    <div id="page">
+      <div class="shr" id="towerSh"></div>
+      <div class="g3" id="tower"></div>
+      <svg id="arrow" viewBox="0 0 560 140" style="overflow:visible">
+        <path id="arrowDash" d="M10 70 H470 M430 20 L520 70 L430 120" fill="none" stroke="#141414" stroke-opacity=".55" stroke-width="10" stroke-dasharray="26 18" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="arrowTry" d="M10 70 H150" fill="none" stroke="#E8430F" stroke-width="16" stroke-linecap="round"/>
+      </svg>
+      <div id="title">高认知<em>穷人</em></div>
+
+      <div class="slot" id="slot1"></div><div class="slot" id="slot2"></div><div class="slot" id="slot3"></div>
+      <div class="sh" id="sunSh"></div>
+      <div id="sun"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div id="horizon"></div>
+      <div class="sh" id="barSh"></div>
+      <div id="bar"><i class="a"></i><i class="b"></i></div>
+      <div class="sh" id="bookSh"></div>
+      <div class="pageL" id="pageL"><i style="top:40px"></i><i style="top:70px"></i><i style="top:100px"></i><i style="top:130px"></i></div>
+      <div class="pageR" id="pageR"><i style="top:40px"></i><i style="top:70px"></i><i style="top:100px"></i><i style="top:130px"></i></div>
+
+      <svg id="ring" viewBox="0 0 1200 1200"><circle id="ringC" cx="600" cy="600" r="520" fill="none" stroke="#E8430F" stroke-width="12" stroke-dasharray="40 26" stroke-linecap="round"/></svg>
+      <div id="loopTxt">内部<em>循环</em></div>
+      <div class="g3" id="fenceG"></div>
+      <div class="shr" id="doorSh"></div>
+      <div id="doorFrame"><div id="door"><div class="pl" style="top:150px"></div><div class="pl" style="top:290px;height:90px"></div><div class="sign">处境</div><i></i></div></div>
+
+      <div class="sh" id="outSh"></div>
+      <div id="out"><div id="outIn"><i class="eye l"></i><i class="eye r"></i></div></div>
+    </div>
+  </div></div>
+
+  <div class="hud" id="vig" style="left:0;top:0;width:1920px;height:1080px;z-index:5;background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 55%,rgba(60,40,20,.16) 100%)"></div>
+  <!-- presenter: flat on screen, not in the 3D scene; it only fades in and out -->
+  <div class="hud photo pcard" id="photo" style="left:1430px;top:150px;width:380px;height:480px;transform:rotate(2deg)"><div class="in"><video id="talkA" class="clip" src="assets/talk13.mp4" muted playsinline data-start="0" data-duration="13.4" data-track-index="1" style="left:-24px;top:-88px;width:400px;height:711px"></video></div></div>
+  <div class="hud photo pcard" id="sticker" style="left:110px;top:130px;width:280px;height:280px"><div class="in"><video id="talkB" class="clip" src="assets/talk13.mp4" muted playsinline data-start="0" data-duration="13.4" data-track-index="3" style="left:-17px;top:-84px;width:296px;height:526px"></video></div></div>
+  <div class="hud" id="tag"><i></i>苏格拉丁</div>
+  <div class="hud" id="caps"></div>
+  <div id="fade"></div>
+  <!-- sfx:begin -->
+  <audio id="sfx-01-tap" src="assets/sfx_paper/tap_1.wav" data-start="0.180" data-duration="0.200" data-track-index="6" data-volume="0.3"></audio>
+  <audio id="sfx-02-press" src="assets/sfx_paper/press_1.wav" data-start="0.370" data-duration="0.380" data-track-index="7" data-volume="0.3"></audio>
+  <audio id="sfx-03-tap" src="assets/sfx_paper/tap_2.wav" data-start="0.630" data-duration="0.200" data-track-index="8" data-volume="0.22"></audio>
+  <audio id="sfx-04-tick" src="assets/sfx_paper/tick_1.wav" data-start="0.900" data-duration="0.220" data-track-index="9" data-volume="0.28"></audio>
+  <audio id="sfx-05-fold" src="assets/sfx_paper/fold_1.wav" data-start="1.350" data-duration="0.300" data-track-index="10" data-volume="0.3"></audio>
+  <audio id="sfx-06-draw" src="assets/sfx_paper/draw_1.wav" data-start="1.510" data-duration="0.450" data-track-index="11" data-volume="0.18"></audio>
+  <audio id="sfx-07-draw" src="assets/sfx_paper/draw_2.wav" data-start="2.120" data-duration="0.250" data-track-index="6" data-volume="0.14"></audio>
+  <audio id="sfx-08-rustle" src="assets/sfx_paper/rustle_1.wav" data-start="2.950" data-duration="0.700" data-track-index="7" data-volume="0.22"></audio>
+  <audio id="sfx-09-tick" src="assets/sfx_paper/tick_2.wav" data-start="3.550" data-duration="0.220" data-track-index="8" data-volume="0.34"></audio>
+  <audio id="sfx-10-fold" src="assets/sfx_paper/fold_2.wav" data-start="4.780" data-duration="0.300" data-track-index="9" data-volume="0.3"></audio>
+  <audio id="sfx-11-fold" src="assets/sfx_paper/fold_3.wav" data-start="5.600" data-duration="0.300" data-track-index="10" data-volume="0.25"></audio>
+  <audio id="sfx-12-fold" src="assets/sfx_paper/fold_4.wav" data-start="6.330" data-duration="0.300" data-track-index="11" data-volume="0.21"></audio>
+  <audio id="sfx-13-draw" src="assets/sfx_paper/draw_1.wav" data-start="7.450" data-duration="0.600" data-track-index="6" data-volume="0.18"></audio>
+  <audio id="sfx-14-flop" src="assets/sfx_paper/flop_1.wav" data-start="7.630" data-duration="0.300" data-track-index="7" data-volume="0.14"></audio>
+  <audio id="sfx-15-press" src="assets/sfx_paper/press_2.wav" data-start="8.230" data-duration="0.380" data-track-index="8" data-volume="0.26"></audio>
+  <audio id="sfx-16-fold" src="assets/sfx_paper/fold_1.wav" data-start="8.740" data-duration="0.300" data-track-index="9" data-volume="0.26"></audio>
+  <audio id="sfx-17-fold" src="assets/sfx_paper/fold_2.wav" data-start="9.310" data-duration="0.300" data-track-index="10" data-volume="0.22"></audio>
+  <audio id="sfx-18-fold" src="assets/sfx_paper/fold_3.wav" data-start="10.260" data-duration="0.300" data-track-index="11" data-volume="0.28"></audio>
+  <audio id="sfx-19-thump" src="assets/sfx_paper/thump_1.wav" data-start="10.440" data-duration="0.700" data-track-index="6" data-volume="0.5"></audio>
+  <audio id="sfx-20-tick" src="assets/sfx_paper/tick_3.wav" data-start="12.020" data-duration="0.220" data-track-index="7" data-volume="0.24"></audio>
+  <!-- sfx:end -->
+
+  <audio id="voice" src="assets/voice13.wav" data-start="0" data-duration="13.4" data-track-index="2" data-volume="1"></audio>
+  <audio id="music" src="assets/music13.wav" data-start="0" data-duration="13.4" data-track-index="5" data-volume="0.12"></audio>
+</div>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const { stand, flat, side } = Stage3D;
+  const tl = gsap.timeline({ paused: true });
+  const W = (id, ch, n = 1) => window.CAPS.find((c) => c.id === id).u.filter((x) => x[0][0] === ch)[n - 1][1];
+  const popUp = (el, t, d = 0.5) => {
+    tl.fromTo(el, { rotationX: 0 }, { rotationX: 90, duration: d, ease: "back.out(1.6)" }, t);
+    tl.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08 }, t);
+  };
+  const foldDown = (el, t, d = 0.35) => { tl.to(el, { rotationX: 0, duration: d, ease: "power2.in" }, t); tl.to(el, { autoAlpha: 0, duration: 0.05 }, t + d); };
+  const fadeIn = (el, t, d = 0.4) => tl.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: d }, t);
+  function block(parent, x, z, w, d, h, frontBg) {
+    const g = document.createElement("div"); g.className = "g3"; parent.appendChild(g);
+    const f = document.createElement("div"); f.className = "front"; f.style.background = frontBg; g.appendChild(f); stand(f, x, z, w, h);
+    const tp = document.createElement("div"); tp.className = "top"; g.appendChild(tp); flat(tp, x, z - d / 2, w, d); gsap.set(tp, { z: -h });
+    const sd = document.createElement("div"); sd.className = "sideF"; g.appendChild(sd); side(sd, x + w / 2, z, z - d, h);
+    return g;
+  }
+
+
+  // ---------- camera ----------
+  Stage3D.install(tl, {
+    duration: 13.4,
+    cam: [
+      [0, { x: 560, y: 800, z: -470, rx: -88, ry: 0, s: 0.84 }],          // 2D: straight down on the page, a printed poster
+      [1.0, { x: 580, y: 800, z: -470, rx: -88, ry: 0, s: 0.88 }, "lin"],
+      [1.9, { x: 820, y: 590, z: -300, rx: -14, ry: -10, s: 0.98 }],     // dive into 2.5D: the page stands up
+      [2.7, { x: 980, y: 640, z: -330, rx: -30, ry: 6, s: 0.98 }],
+      [3.5, { x: 2880, y: 620, z: -300, rx: -18, ry: -12, s: 1.0 }],
+      [4.6, { x: 2950, y: 620, z: -300, rx: -18, ry: -8, s: 1.02 }],
+      [6.7, { x: 3150, y: 600, z: -300, rx: -20, ry: 10, s: 1.06 }, "lin"],
+      [8.0, { x: 3050, y: 800, z: -300, rx: -88, ry: 0, s: 0.6 }],        // 2D again: top view, the loop is a flat diagram
+      [8.75, { x: 3050, y: 800, z: -300, rx: -88, ry: 6, s: 0.62 }, "lin"],
+      [9.7, { x: 3050, y: 420, z: -300, rx: -42, ry: 18, s: 0.78 }],     // the fence folds up and pulls us back into 2.5D
+      [10.5, { x: 3200, y: 600, z: -520, rx: -16, ry: 26, s: 1.0 }],
+      [12.4, { x: 3260, y: 570, z: -540, rx: -14, ry: 32, s: 1.08 }, "lin"],
+      [13.4, { x: 3200, y: 430, z: -460, rx: -38, ry: 26, s: 0.94 }],
+    ],
+    shake: [[0.98, 5, 0.3], [3.55, 8, 0.35], [10.22, 9, 0.35], [11.95, 5, 0.3]],
+  });
+
+  // ---------- 1: 高认知穷人，其实是缺少向外输出 ----------
+  const TX = 800, TZ = -300, SLAB = 46, SD = 170;
+  const tower = $("#tower");
+  const spines = ["#141414", "#E8430F", "#fbf9f4", "#5b5a55", "#fbf9f4", "#141414"];
+  const widths = [280, 262, 274, 250, 266, 244];
+  spines.forEach((bg, i) => {
+    const g = block(tower, TX + (i % 2 ? 8 : -6), TZ, widths[i], SD, SLAB, bg);
+    tl.fromTo(g, { z: -(i * SLAB + 700), autoAlpha: 0 }, { z: -(i * SLAB), autoAlpha: 1, duration: 0.45, ease: "bounce.out" }, 0.02 + i * 0.09);
+  });
+  flat($("#towerSh"), TX + 30, TZ - 90, 360, 260);
+  fadeIn("#towerSh", 0.1);
+  stand($("#title"), 120, -640, 640, 160, { yaw: 8 });
+  // printed flat on the page first (readable from above), then it stands up as the camera dives in
+  tl.fromTo("#title", { rotationX: 180, autoAlpha: 0, scale: 1.25 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power3.in" }, 0.02);
+  tl.to("#title", { rotationX: 90, duration: 0.7, ease: "back.out(1.3)" }, 1.05);
+  foldDown("#title", 2.75);
+  flat($("#arrow"), 1200, -385, 560, 140);
+  tl.fromTo("#arrow", { scaleX: 0, autoAlpha: 0, transformOrigin: "0% 50%" }, { scaleX: 1, autoAlpha: 1, duration: 0.45, ease: "power2.out" }, W("c01", "缺") - 0.05);
+  tl.fromTo("#arrowTry", { opacity: 0, strokeDasharray: 600, strokeDashoffset: 600 }, { opacity: 1, strokeDashoffset: 460, duration: 0.25, ease: "power2.out" }, W("c01", "输"));
+  tl.to("#arrowTry", { strokeDashoffset: 600, duration: 0.3, ease: "power2.in" }, W("c01", "出") + 0.2);
+  tl.to("#arrow", { autoAlpha: 0, duration: 0.3 }, 3.3);
+  // presenter photo: flat on screen, a soft fade + small rise, no flip, no camera ride
+  tl.fromTo("#photo", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.3);
+  tl.to("#photo", { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 2.85);
+
+  // the character: sits on top of the tower, then jumps out
+  const out = $("#out"), outIn = $("#outIn"), eyes = "#outIn .eye";
+  const OX = 800, OZ = -385;
+  stand(out, OX, OZ, 72, 72); flat($("#outSh"), OX, OZ, 110, 90);
+  gsap.set(outIn, { transformOrigin: "50% 100%" });
+  const at = (X, Z) => ({ x: X - OX, y: -(Z - OZ) });
+  const TOP = 6 * SLAB;
+  tl.fromTo(out, { z: -1000, autoAlpha: 0 }, { z: -TOP, autoAlpha: 1, duration: 0.4, ease: "bounce.out" }, 0.75);
+  gsap.set("#outSh", { autoAlpha: 0 });
+  tl.to(eyes, { x: 7, duration: 0.2 }, W("c01", "缺"));
+  tl.to(outIn, { rotation: 16, duration: 0.2, yoyo: true, repeat: 1, ease: "power2.out" }, W("c01", "向"));
+  tl.to(outIn, { scaleY: 0.7, scaleX: 1.18, duration: 0.12 }, 2.75);
+  const J0 = 2.87, J1 = 3.55, land = at(2560, -170);
+  tl.to(out, { x: land.x, y: land.y, duration: J1 - J0, ease: "none" }, J0);
+  tl.to(out, { z: -760, duration: (J1 - J0) * 0.45, ease: "power2.out" }, J0);
+  tl.to(out, { z: 0, duration: (J1 - J0) * 0.55, ease: "power2.in" }, J0 + (J1 - J0) * 0.45);
+  tl.to(outIn, { scaleY: 1.12, scaleX: 0.9, rotation: 360, duration: J1 - J0, ease: "power1.inOut" }, J0);
+  tl.set(outIn, { rotation: 0 }, J1);
+  tl.to(outIn, { scaleY: 0.72, scaleX: 1.2, duration: 0.07 }, J1);
+  tl.to(outIn, { scaleY: 1, scaleX: 1, duration: 0.3, ease: "elastic.out(1,0.45)" }, J1 + 0.07);
+  tl.set("#outSh", { x: land.x, y: land.y }, J1 - 0.15);
+  tl.to("#outSh", { autoAlpha: 1, duration: 0.15 }, J1 - 0.15);
+  tl.to(eyes, { x: 0, duration: 0.2 }, J1);
+
+  // ---------- 2: 我们改变自己的方式通常是早起、运动、读书 ----------
+  const SX = [2700, 3050, 3400], SZ = -300;
+  ["#slot1", "#slot2", "#slot3"].forEach((s, i) => {
+    flat($(s), SX[i], SZ, 230, 230);
+    tl.fromTo(s, { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 3.6 + i * 0.25);
+  });
+  const hop = (t, X, Z, lift = 130, d = 0.36, landH = 0) => {
+    const p = at(X, Z);
+    tl.to(outIn, { scaleY: 0.75, scaleX: 1.15, duration: 0.09, ease: "power2.in" }, t - 0.09);
+    tl.to([out, "#outSh"], { x: p.x, y: p.y, duration: d, ease: "none" }, t);
+    tl.to(out, { z: -(lift + landH), duration: d / 2, ease: "power2.out" }, t);
+    tl.to(outIn, { scaleY: 1.1, scaleX: 0.92, duration: d / 2 }, t);
+    tl.to(out, { z: -landH, duration: d / 2, ease: "power2.in" }, t + d / 2);
+    tl.to(outIn, { scaleY: 0.8, scaleX: 1.15, duration: 0.07 }, t + d);
+    tl.to(outIn, { scaleY: 1, scaleX: 1, duration: 0.3, ease: "elastic.out(1,0.45)" }, t + d + 0.07);
+  };
+  const tSun = W("c02", "早"), tGym = W("c02", "运"), tBook = W("c02", "读");
+  stand($("#horizon"), SX[0], SZ + 40, 260, 70);
+  stand($("#sun"), SX[0], SZ - 10, 150, 150);
+  flat($("#sunSh"), SX[0], SZ - 10, 200, 120);
+  [...$("#sun").children].forEach((r, i) => { const a = (i * 45) * Math.PI / 180; gsap.set(r, { rotation: i * 45, transformOrigin: "50% 50%", x: Math.sin(a) * 105, y: -Math.cos(a) * 105 }); });
+  popUp("#horizon", tSun - 0.25, 0.4);
+  tl.fromTo("#sun", { z: 160, autoAlpha: 0 }, { z: -70, autoAlpha: 1, duration: 0.6, ease: "back.out(1.6)" }, tSun - 0.1);
+  tl.fromTo("#sun i", { scaleY: 0 }, { scaleY: 1, duration: 0.3, stagger: 0.03, ease: "back.out(2)" }, tSun + 0.25);
+  fadeIn("#sunSh", tSun);
+  stand($("#bar"), SX[1], SZ, 220, 18);
+  flat($("#barSh"), SX[1], SZ, 260, 110);
+  popUp("#bar", tGym - 0.1, 0.4); fadeIn("#barSh", tGym);
+  tl.fromTo("#bar", { z: 0 }, { z: -120, duration: 0.28, ease: "power2.out", yoyo: true, repeat: 3 }, tGym + 0.3);
+  stand($("#pageL"), SX[2] - 70, SZ + 20, 150, 200, { yaw: 22 });
+  stand($("#pageR"), SX[2] + 70, SZ + 20, 150, 200, { yaw: -22 });
+  flat($("#bookSh"), SX[2], SZ - 10, 330, 140);
+  popUp("#pageL", tBook - 0.08, 0.45); popUp("#pageR", tBook, 0.45); fadeIn("#bookSh", tBook);
+  hop(tSun - 0.35, 2700, -150); hop(tGym - 0.3, 3050, -150); hop(tBook - 0.3, 3400, -150);
+  tl.to(eyes, { y: -6, duration: 0.2 }, tSun); tl.to(eyes, { y: 0, duration: 0.2 }, tBook + 0.4);
+
+  // ---------- 3: 但这些都是内部循环，只是基本要求 ----------
+  const CX = 3050, CZ = -300, R = 520;
+  flat($("#ring"), CX, CZ, 1200, 1200);
+  tl.fromTo("#ring", { rotation: -120, scale: 0.6, autoAlpha: 0 }, { rotation: 0, scale: 1, autoAlpha: 1, duration: 0.6, ease: "power3.out" }, W("c03", "内") - 0.2);
+  tl.to("#ring", { rotation: 90, duration: 5, ease: "none" }, W("c03", "内") + 0.4);
+  flat($("#loopTxt"), CX, CZ - 20, 700, 180);
+  tl.fromTo("#loopTxt", { autoAlpha: 0, scale: 1.4, rotationX: 180 }, { autoAlpha: 1, scale: 1, rotationX: 180, duration: 0.35, ease: "power3.in" }, W("c03", "循") - 0.1);
+  tl.to("#loopTxt", { autoAlpha: 0, duration: 0.3 }, 10.0);
+  foldDown("#horizon", 7.2); tl.to("#sun", { autoAlpha: 0, z: 160, duration: 0.3 }, 7.2);
+  foldDown("#bar", 7.28); foldDown("#pageL", 7.36); foldDown("#pageR", 7.36);
+  tl.to(["#sunSh", "#barSh", "#bookSh", "#slot1", "#slot2", "#slot3"], { autoAlpha: 0, duration: 0.3 }, 7.25);
+  hop(7.35, CX + R, CZ, 110, 0.32);
+  const run = { a: 0 }, RUN0 = W("c03", "循") - 0.15, RUN1 = W("c04", "步");
+  const place = () => {
+    const now = tl.time();
+    if (now < RUN0 - 1e-3 || now > RUN1 + 0.4) return;
+    const X = CX + R * Math.cos(run.a), Z = CZ + R * Math.sin(run.a), p = at(X, Z);
+    gsap.set([out, "#outSh"], { x: p.x, y: p.y });
+    gsap.set(out, { z: -Math.abs(Math.sin(run.a * 9)) * 34 });
+  };
+  const END = -(2 * Math.PI) - 0.62;
+  tl.fromTo(run, { a: 0 }, { a: END, duration: RUN1 - RUN0, ease: "power1.inOut", onUpdate: place }, RUN0);
+  const FR = 640, N = 20, fence = $("#fenceG"), FS = [];
+  for (let i = 0; i < N; i++) {
+    const a = (i / N) * Math.PI * 2, el = document.createElement("div"); el.className = "fence"; fence.appendChild(el);
+    stand(el, CX + FR * Math.cos(a), CZ + FR * Math.sin(a), 186, 90, { yaw: -a * 180 / Math.PI - 90 });
+    FS.push(el);
+  }
+  const tBase = W("c03", "基");
+  FS.forEach((el, i) => popUp(el, tBase - 0.3 + i * 0.03, 0.4));
+
+  // ---------- 4: 若止步于此，处境不会发生改变 ----------
+  const tStop = W("c04", "步");
+  tl.to(outIn, { scaleY: 0.7, scaleX: 1.22, duration: 0.08 }, tStop);
+  tl.to(outIn, { scaleY: 1, scaleX: 1, duration: 0.35, ease: "elastic.out(1,0.4)" }, tStop + 0.08);
+  tl.to(out, { z: 0, duration: 0.08 }, tStop);
+  tl.to(eyes, { x: 7, y: -4, duration: 0.25 }, tStop + 0.4);
+  stand($("#doorFrame"), 4000, -850, 260, 440, { yaw: -24 });
+  Object.assign($("#door").style, { position: "absolute", left: "20px", top: "20px", width: "210px", height: "415px" });
+  flat($("#doorSh"), 4040, -900, 300, 140);
+  popUp("#doorFrame", 9.9, 0.6); fadeIn("#doorSh", 10.1);
+  const tSame = W("c04", "不");
+  tl.to(outIn, { scaleY: 0.75, scaleX: 1.15, duration: 0.1 }, tSame - 0.1);
+  tl.to(out, { z: -150, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1 }, tSame);
+  tl.to(outIn, { scaleY: 0.8, scaleX: 1.15, duration: 0.07 }, tSame + 0.4);
+  tl.to(outIn, { scaleY: 1, scaleX: 1, duration: 0.3, ease: "elastic.out(1,0.45)" }, tSame + 0.47);
+  tl.to(eyes, { x: 0, y: 4, duration: 0.3 }, W("c04", "改"));
+  tl.fromTo("#sticker", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 10.3);
+
+
+
+  // ================= layers, detail, words (v4) =================
+  const PG = $("#page");
+  const mk = (cls, html = "") => { const el = document.createElement("div"); el.className = cls; el.innerHTML = html; PG.appendChild(el); return el; };
+  const lines = (n, top = 26, gap = 22) => Array.from({ length: n }, (_, i) => `<i style="top:${top + i * gap}px"></i>`).join("");
+  const paleBlock = (x, z, w, d, h) => { const g = block(PG, x, z, w, d, h, "linear-gradient(#f8f6f0,#ece7dc)"); g.querySelectorAll("div").forEach((e) => { e.style.borderColor = "rgba(20,20,20,.16)"; e.style.borderWidth = "3px"; }); g.querySelector(".sideF").style.background = "#e8e3d8"; return g; };
+  const bgCard = (x, z, w, h, yaw = 0) => { const el = mk("bgc", lines(Math.max(2, Math.floor(h / 40)))); stand(el, x, z, w, h, { yaw }); return el; };
+  const fgCard = (x, z, w, h, yaw = 0) => { const el = mk("fgc"); stand(el, x, z, w, h, { yaw }); return el; };
+  const fgFlat = (x, z, w, d, lift = 0, rot = 0) => { const el = mk("fgf", lines(3, 30, 34)); flat(el, x, z, w, d); gsap.set(el, { z: -lift, rotation: rot }); return el; };
+
+  // --- shot 1 (books) ---
+  // background: pale stacks and notes far behind the tower
+  paleBlock(250, -1250, 260, 160, 120); paleBlock(260, -1250, 230, 150, 60).style.transform += "";
+  bgCard(520, -1400, 220, 300, 10); bgCard(1350, -1300, 260, 220, -8); paleBlock(1650, -1150, 300, 180, 90);
+  // foreground: a loose sheet floating above the page in the top view, drifting off as we dive in
+  const fly = fgFlat(220, -260, 420, 300, 520, -14);
+  tl.to(fly, { x: -500, y: 260, z: -1100, rotation: -40, duration: 1.1, ease: "power2.in" }, 0.95);
+  // foreground in 2.5D: a dark card edge at right, a sheet lying near the lens at left
+  fgCard(1500, -60, 300, 380, -18); fgFlat(430, 150, 760, 260, 0, 6);
+  // subject detail: titles on the book spines
+  const SP = ["哲学", "心理学", "认知", "思维模型", "社会学", "NLP"];
+  [...tower.children].forEach((g, i) => {
+    const f = g.querySelector(".front"); f.classList.add("spine");
+    f.style.color = ["#141414", "#E8430F", "#5b5a55"].includes(spines[i]) ? "#fbf9f4" : "#141414";
+    f.innerHTML = `<b class="l"></b>${SP[i]}<b class="r"></b>`;
+  });
+  // words: the arrow gets its name when he says it
+  const outLbl = mk("print", "向外输出"); flat(outLbl, 1130, -235, 420, 100);
+  tl.fromTo(outLbl, { rotationX: 180, autoAlpha: 0, scale: 1.2 }, { rotationX: 180, autoAlpha: 1, scale: 1, duration: 0.3, ease: "power3.out" }, W("c01", "输") - 0.05);
+  tl.to(outLbl, { autoAlpha: 0, duration: 0.3 }, 3.3);
+  const lackLbl = mk("note", "缺少"); flat(lackLbl, 1130, -505, 220, 70);
+  tl.fromTo(lackLbl, { rotationX: 180, autoAlpha: 0 }, { rotationX: 180, autoAlpha: 1, duration: 0.25 }, W("c01", "缺"));
+  tl.to(lackLbl, { autoAlpha: 0, duration: 0.3 }, 3.3);
+
+  // --- shot 2 (three things) ---
+  paleBlock(2450, -1250, 280, 170, 140); bgCard(2850, -1450, 240, 320, 6); bgCard(3300, -1350, 220, 260, -10); paleBlock(3700, -1200, 260, 160, 70);
+  fgCard(2330, -40, 280, 420, 16); const fg2 = fgFlat(3420, 120, 700, 240, 0, -5); tl.to(fg2, { autoAlpha: 0, duration: 0.4 }, 7.2);
+  // words: a tag stands up behind each thing as it is named
+  const TAGS = [["早起", tSun], ["运动", tGym], ["读书", tBook]];
+  const tagEls = TAGS.map(([w, t], i) => { const el = mk("tag", w); stand(el, SX[i] + 125, SZ + 190, 150, 64, { yaw: -8 }); el.style.fontSize = "38px"; popUp(el, t + 0.12, 0.45); return el; });
+  tagEls.forEach((el) => foldDown(el, 7.24));
+
+  // --- shot 3 (the loop, the fence, the door) ---
+  paleBlock(2500, -1500, 300, 170, 110); bgCard(3000, -1650, 260, 300, 4); bgCard(3600, -1550, 240, 240, -12); paleBlock(4400, -1400, 280, 170, 80);
+  // top view foreground: a sheet hovering over the corner of the loop
+  const fly2 = fgFlat(2420, 80, 460, 320, 420, 12); gsap.set(fly2, { autoAlpha: 0 });
+  tl.to(fly2, { autoAlpha: 1, duration: 0.4 }, 7.6); tl.to(fly2, { x: -700, z: -900, autoAlpha: 0, duration: 0.9, ease: "power2.in" }, 9.0);
+  fgCard(4300, -260, 300, 460, -30);
+  // words: the fence gets its name, the stop gets a sign
+  const baseTag = mk("tag", "基本要求"); stand(baseTag, CX - 120, CZ - 690, 280, 84, { yaw: 8 }); gsap.set(baseTag, { z: -96 });
+  popUp(baseTag, tBase + 0.2, 0.45);
+  const stopTag = mk("tag acc", "止步"); stand(stopTag, 3320, -470, 160, 72, { yaw: -26 });
+  popUp(stopTag, tStop + 0.04, 0.4);
+
+  // ---------- captions ----------
+  const KEY = { c01: "向外输出", c02: "", c03: "内部循环", c04: "改变" };
+  const SOFT = /[，。、；：,.;:…—]+/g, tidy = (t, last) => (last ? t.replace(SOFT, "") : t.replace(SOFT, " "));
+  const caps = $("#caps");
+  window.CAPS.forEach((c, ci) => {
+    const el = document.createElement("div"); el.className = "cap"; caps.appendChild(el);
+    el.innerHTML = c.u.map((u, i) => `<span class="c">${tidy(u[0], i === c.u.length - 1)}</span>`).join("");
+    const next = window.CAPS[ci + 1];
+    tl.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.18 }, Math.max(0, c.t0 - 0.12));
+    tl.to(el, { opacity: 0, duration: 0.12 }, next ? next.t0 - 0.14 : 13.0);
+    [...el.children].forEach((s, i) => tl.to(s, { color: KEY[c.id].includes(c.u[i][0][0]) ? "#E8430F" : "#141414", duration: 0.08 }, c.u[i][1]));
+  });
+  tl.fromTo("#tag", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5 }, 0.2);
+  tl.to("#fade", { opacity: 1, duration: 0.35, ease: "power1.in" }, 13.05);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+})();
+</script>
+</body>
+</html>

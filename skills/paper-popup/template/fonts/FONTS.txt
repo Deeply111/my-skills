@@ -1,0 +1,3 @@
+Fonts bundled for rendering only.
+- MiSans (Regular/Medium/Semibold/Bold): Xiaomi MiSans, free for commercial use under the MiSans license.
+- Bebas Neue, Montserrat: SIL Open Font License 1.1.
