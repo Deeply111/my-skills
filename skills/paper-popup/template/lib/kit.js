@@ -18,6 +18,12 @@
 //   K.print(text, x, z, w, h)                 印在纸面上的字（之后用 printFlat 印出）
 //   K.arrow(x0, x1, z) + K.drawIn(el, t)      纸面上的虚线箭头，从起点画出来
 //   K.dropIn(g, t)                            纸盒从上方落下（不在 3D 组上加透明度，免得被拍扁）
+// 剪辑层（屏幕层，不跟镜头；少用，只用在段落切换和最重的一句）：
+//   K.punch(t, hold, amt)        重音轻推：整个画面快速推近一点，停一下，再缓缓回来
+//   K.shade(t)                   一道纸影从左到右扫过（像一只手从纸面上方掠过），给段落切换一口气
+//   K.lineRelay(t, y)            一笔墨线从左画到右再收走，带着视线去下一处
+//   K.stripWipe(t) / stripIn / stripOut   三条纸条错开滑过、盖满再揭开；被盖住的那一刻可以硬切（两段片子的接缝也用它）
+//   K.fillIn(el, t)              字先只有轮廓，再从左到右填实（用在印出的字、字牌上，配合 printFlat / popUp）
 window.Kit = (() => {
   function use(tl) {
     const { stand, flat, side } = Stage3D;
@@ -111,7 +117,46 @@ window.Kit = (() => {
       gsap.set(g.children, { autoAlpha: 0 }); tl.set(g.children, { autoAlpha: 1 }, t);
       tl.fromTo(g, { z: -from }, { z: 0, duration: d, ease: "bounce.out" }, t);
     };
-    return { mk, lines, bgBlock, bgCard, fgCard, fgFlat, tag, print, arrow, drawIn, dropIn, word, presenterIn, presenterOut, popUp, foldDown, fadeIn, printFlat, standUp, block, actor, captions, stand, flat, side };
+    // ---- cut layer: lives on the screen, not in the 3D scene ----
+    const ROOT = document.getElementById("root"), VIEW = document.getElementById("view");
+    const hud = (css, html = "") => { const el = document.createElement("div"); el.style.cssText = "position:absolute;pointer-events:none;" + css; el.innerHTML = html; ROOT.appendChild(el); gsap.set(el, { autoAlpha: 0 }); return el; };
+    const punch = (t, hold = 0.5, amt = 0.05) => {
+      gsap.set(VIEW, { transformOrigin: "50% 46%" });
+      tl.fromTo(VIEW, { scale: 1 }, { scale: 1 + amt, duration: 0.22, ease: "power3.out", immediateRender: false }, t);
+      tl.fromTo(VIEW, { scale: 1 + amt }, { scale: 1, duration: 0.65, ease: "power2.inOut", immediateRender: false }, t + 0.22 + hold);
+    };
+    const shade = (t, d = 0.55) => {
+      const el = hud("left:-1150px;top:0;width:1150px;height:1080px;z-index:6;background:linear-gradient(90deg,rgba(60,40,20,0),rgba(60,40,20,.3) 40%,rgba(60,40,20,.3) 60%,rgba(60,40,20,0))");
+      tl.set(el, { autoAlpha: 1 }, t);
+      tl.fromTo(el, { x: 0 }, { x: 3070, duration: d, ease: "power1.inOut", immediateRender: false }, t);
+      tl.set(el, { autoAlpha: 0 }, t + d);
+    };
+    const lineRelay = (t, y = 880, color = "#141414") => {
+      const el = hud(`left:0;top:${y - 40}px;width:1920px;height:80px;z-index:6`,
+        `<svg viewBox="0 0 1920 80" width="1920" height="80" style="overflow:visible"><path d="M-20 44 C 500 30, 1200 52, 1840 40 M1790 10 L1860 40 L1790 70" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+      tl.set(el, { autoAlpha: 1 }, t);
+      tl.fromTo(el, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, t);
+      tl.fromTo(el, { scaleX: 1, transformOrigin: "100% 50%" }, { scaleX: 0, duration: 0.35, ease: "power3.in", immediateRender: false }, t + 0.55);
+      tl.set(el, { autoAlpha: 0 }, t + 0.9);
+    };
+    let strips = null;
+    const mkStrips = () => strips || (strips = [0, 1, 2].map((i) => hud(`left:-40px;top:${i * 360 - 6}px;width:2000px;height:372px;z-index:19;background:linear-gradient(#f6f2ea,#ece6d9);border-top:5px solid #141414;border-bottom:5px solid #141414;box-shadow:0 18px 30px rgba(60,40,20,.25);transform:rotate(${[-1, 0.6, -0.5][i]}deg)`)));
+    const stripIn = (t, d = 0.38) => mkStrips().forEach((el, i) => {
+      tl.set(el, { autoAlpha: 1 }, t + i * 0.07);
+      tl.fromTo(el, { x: 2000 }, { x: 0, duration: d, ease: "power3.out", immediateRender: false }, t + i * 0.07);
+    });
+    const stripOut = (t, d = 0.38) => mkStrips().forEach((el, i) => {
+      if (t <= 0) gsap.set(el, { autoAlpha: 1, x: 0 }); else tl.set(el, { autoAlpha: 1, x: 0 }, t);
+      tl.to(el, { x: -2040, duration: d, ease: "power3.in" }, t + i * 0.07);
+      tl.set(el, { autoAlpha: 0 }, t + i * 0.07 + d);
+    });
+    const stripWipe = (t) => { stripIn(t); stripOut(t + 0.6); return t + 0.52; };   // returns the moment the screen is fully covered
+    const fillIn = (el, t, d = 0.45, stroke = 3) => {
+      const html = el.innerHTML;
+      el.innerHTML = `<span style="position:relative;display:inline-block"><span style="-webkit-text-fill-color:transparent;-webkit-text-stroke:${stroke}px currentColor">${html}</span><span class="k-fill" style="position:absolute;left:0;top:0;white-space:nowrap">${html}</span></span>`;
+      tl.fromTo(el.querySelector(".k-fill"), { clipPath: "inset(-10% 100% -10% 0)" }, { clipPath: "inset(-10% 0% -10% 0)", duration: d, ease: "power2.inOut" }, t);
+    };
+    return { punch, shade, lineRelay, stripIn, stripOut, stripWipe, fillIn, mk, lines, bgBlock, bgCard, fgCard, fgFlat, tag, print, arrow, drawIn, dropIn, word, presenterIn, presenterOut, popUp, foldDown, fadeIn, printFlat, standUp, block, actor, captions, stand, flat, side };
   }
   return { use };
 })();
